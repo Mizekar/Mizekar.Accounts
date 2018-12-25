@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mizekar.Accounts", "src\Mizekar.Accounts\Mizekar.Accounts.csproj", "{C3881D17-926D-4AF6-BAE2-A719530D8355}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestClients", "TestClients", "{38CCF932-BC51-44B8-AC43-ADC014A83CB4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mizekar.MvcClients", "src\Mizekar.MvcClients\Mizekar.MvcClients.csproj", "{3F2212F9-1E14-4405-8184-9E7DA6A8BF66}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mizekar.Accounts.IntegratedTests", "src\Mizekar.Accounts.IntegratedTests\Mizekar.Accounts.IntegratedTests.csproj", "{6236043B-02E0-41BF-ABBA-579F94D8DFAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mizekar.Api", "src\Mizekar.Api\Mizekar.Api.csproj", "{89F8300F-BE9B-409B-BDE4-F4EA7829C6C4}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EC156722-009B-4547-9219-8F9BC58AAF31}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C3881D17-926D-4AF6-BAE2-A719530D8355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3881D17-926D-4AF6-BAE2-A719530D8355}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3881D17-926D-4AF6-BAE2-A719530D8355}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3881D17-926D-4AF6-BAE2-A719530D8355}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F2212F9-1E14-4405-8184-9E7DA6A8BF66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F2212F9-1E14-4405-8184-9E7DA6A8BF66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F2212F9-1E14-4405-8184-9E7DA6A8BF66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F2212F9-1E14-4405-8184-9E7DA6A8BF66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6236043B-02E0-41BF-ABBA-579F94D8DFAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6236043B-02E0-41BF-ABBA-579F94D8DFAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6236043B-02E0-41BF-ABBA-579F94D8DFAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6236043B-02E0-41BF-ABBA-579F94D8DFAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89F8300F-BE9B-409B-BDE4-F4EA7829C6C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89F8300F-BE9B-409B-BDE4-F4EA7829C6C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89F8300F-BE9B-409B-BDE4-F4EA7829C6C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89F8300F-BE9B-409B-BDE4-F4EA7829C6C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC156722-009B-4547-9219-8F9BC58AAF31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC156722-009B-4547-9219-8F9BC58AAF31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC156722-009B-4547-9219-8F9BC58AAF31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC156722-009B-4547-9219-8F9BC58AAF31}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3F2212F9-1E14-4405-8184-9E7DA6A8BF66} = {38CCF932-BC51-44B8-AC43-ADC014A83CB4}
+		{89F8300F-BE9B-409B-BDE4-F4EA7829C6C4} = {38CCF932-BC51-44B8-AC43-ADC014A83CB4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F96105BA-54D4-454A-99BF-D8D142B57FD7}
+	EndGlobalSection
+EndGlobal
