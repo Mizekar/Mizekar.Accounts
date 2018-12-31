@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Mizekar.Accounts.Data.Entities;
+using Mizekar.Accounts.Helper;
+using Mizekar.Accounts.Validation;
 
 namespace Mizekar.Accounts.Areas.Identity.Pages.Account
 {
@@ -37,13 +39,13 @@ namespace Mizekar.Accounts.Areas.Identity.Pages.Account
         public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
-
+        
         public class InputModel
         {
             [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
-            public string Email { get; set; }
+            [PhoneOrEmail]
+            [Display(Name = "Email or PhoneNumber")]
+            public string EmailOrPhoneNumber { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -67,21 +69,39 @@ namespace Mizekar.Accounts.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var isEmail = Input.EmailOrPhoneNumber.Contains("@");
+                var user = new ApplicationUser { UserName = Input.EmailOrPhoneNumber };
+                if (isEmail)
+                {
+                    user.Email = Input.EmailOrPhoneNumber;
+                }
+                else
+                {
+                    var phoneNumber = PhoneNumbers.NormalizePhoneNumber(Input.EmailOrPhoneNumber);
+                    user.PhoneNumber = phoneNumber;
+                }
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { userId = user.Id, code = code },
-                        protocol: Request.Scheme);
+                    if (isEmail)
+                    {
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.Page(
+                            "/Account/ConfirmEmail",
+                            pageHandler: null,
+                            values: new { userId = user.Id, code = code },
+                            protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        await _emailSender.SendEmailAsync(Input.EmailOrPhoneNumber, "Confirm your email",
+                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    }
+                    else
+                    {
+                        //var response = await SendSmsRequet(phoneNumber, user);
+                    }
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Mizekar.Accounts.Data.Entities;
+using Mizekar.Accounts.Helper;
 using Mizekar.Accounts.Services;
 using Mizekar.Accounts.ViewModels;
 using Mizekar.Core.Extensions;
@@ -37,31 +38,6 @@ namespace Mizekar.Accounts.Controllers
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
-        /// <summary>
-        /// Removes all non numeric characters from a string
-        /// </summary>
-        /// <param name="phone"></param>
-        /// <returns></returns>
-        public static string RemoveNonNumeric(string phone)
-        {
-            return Regex.Replace(phone, @"[^0-9]+", "");
-        }
-
-        private bool ValidatePhoneNumber(string phoneNumber)
-        {
-            if (string.IsNullOrWhiteSpace(phoneNumber)) return false;
-            var cleanNumber = phoneNumber.ToEnglishNumbers();
-            cleanNumber = RemoveNonNumeric(cleanNumber);
-            return cleanNumber.Length == 12; // 989108802440
-        }
-
-        private string NormalizePhoneNumber(string phoneNumber)
-        {
-            var cleanNumber = phoneNumber.ToEnglishNumbers();
-            cleanNumber = RemoveNonNumeric(cleanNumber);
-            phoneNumber = _userManager.NormalizeKey(cleanNumber);
-            return phoneNumber;
-        }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]PhoneLoginViewModel model)
@@ -71,11 +47,12 @@ namespace Mizekar.Accounts.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!ValidatePhoneNumber(model.PhoneNumber))
+            if (!PhoneNumbers.ValidatePhoneNumber(model.PhoneNumber))
             {
                 return BadRequest("phone invalid");
             }
-            var phoneNumber = NormalizePhoneNumber(model.PhoneNumber);
+            var phoneNumber = PhoneNumbers.NormalizePhoneNumber(model.PhoneNumber);
+            phoneNumber = _userManager.NormalizeKey(phoneNumber);
             var user = await GetUser(phoneNumber);
             var response = await SendSmsRequet(phoneNumber, user);
 
@@ -98,12 +75,13 @@ namespace Mizekar.Accounts.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!ValidatePhoneNumber(model.PhoneNumber))
+            if (!PhoneNumbers.ValidatePhoneNumber(model.PhoneNumber))
             {
                 return BadRequest("phone invalid");
             }
 
-            var phoneNumber = NormalizePhoneNumber(model.PhoneNumber);
+            var phoneNumber = PhoneNumbers.NormalizePhoneNumber(model.PhoneNumber);
+            phoneNumber = _userManager.NormalizeKey(phoneNumber);
             var user = await GetUser(phoneNumber);
             if (!await _dataProtectorTokenProvider.ValidateAsync("resend_token", resendToken, _userManager, user))
             {
