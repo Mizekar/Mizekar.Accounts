@@ -22,6 +22,7 @@ namespace Mizekar.Accounts
             return new ApiResource[]
             {
                 new ApiResource("storage", "Mizekar Storage Api"){ UserClaims = { JwtClaimTypes.Role, JwtClaimTypes.PhoneNumber }},
+                new ApiResource("business", "Mizekar Business Api"){ UserClaims = { JwtClaimTypes.Role, JwtClaimTypes.PhoneNumber }},
                 new ApiResource("shop", "Mizekar Shop Api"){ UserClaims = { JwtClaimTypes.Role, JwtClaimTypes.PhoneNumber }},
                 new ApiResource("mvc", "mvc site"),
                 new ApiResource("api1", "web api client"),
@@ -68,6 +69,24 @@ namespace Mizekar.Accounts
                 // MVC client using hybrid flow
                 new Client
                 {
+                    ClientId = "business",
+                    ClientName = "Business app",
+                    RequireConsent = false,
+
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    RedirectUris = { "https://business.mizekar.com/signin-oidc" },
+                    FrontChannelLogoutUri = "https://business.mizekar.com/signout-oidc",
+                    PostLogoutRedirectUris = { "https://business.mizekar.com/signout-callback-oidc" },
+
+                    AllowOfflineAccess = true,
+                    AllowedScopes = { "openid", "profile", "business" }
+                },
+
+                // MVC client using hybrid flow
+                new Client
+                {
                     ClientId = "mvc",
                     ClientName = "mvc site",
                     RequireConsent = false,
@@ -83,29 +102,29 @@ namespace Mizekar.Accounts
                     AllowedScopes = { "openid", "profile", "mvc" }
                 },
 
-                //// SPA client using implicit flow
-                //new Client
-                //{
-                //    ClientId = "spa",
-                //    ClientName = "SPA Client",
-                //    ClientUri = "http://identityserver.io",
+                // SPA client using implicit flow
+                new Client
+                {
+                    ClientId = "spa",
+                    ClientName = "SPA Client",
+                    ClientUri = "http://identityserver.io",
 
-                //    AllowedGrantTypes = GrantTypes.Implicit,
-                //    AllowAccessTokensViaBrowser = true,
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
 
-                //    RedirectUris =
-                //    {
-                //        "http://localhost:5002/index.html",
-                //        "http://localhost:5002/callback.html",
-                //        "http://localhost:5002/silent.html",
-                //        "http://localhost:5002/popup.html",
-                //    },
+                    RedirectUris =
+                    {
+                        "http://localhost:5002/index.html",
+                        "http://localhost:5002/callback.html",
+                        "http://localhost:5002/silent.html",
+                        "http://localhost:5002/popup.html",
+                    },
 
-                //    PostLogoutRedirectUris = { "http://localhost:5002/index.html" },
-                //    AllowedCorsOrigins = { "http://localhost:5002" },
+                    PostLogoutRedirectUris = { "http://localhost:5002/index.html" },
+                    AllowedCorsOrigins = { "http://localhost:5002" },
 
-                //    AllowedScopes = { "openid", "profile", "api1" }
-                //}
+                    AllowedScopes = { "openid", "profile", "api1" }
+                }
             };
         }
     }

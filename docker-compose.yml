@@ -9,20 +9,6 @@ services:
       MSSQL_PID: Express
     ports:
       - "1433:1433"
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.3
-    container_name: elasticsearch
-    ports:
-      - "9200:9200"
-    volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
-  kibana:
-    image: docker.elastic.co/kibana/kibana:6.5.3
-    container_name: kibana
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
   mizekar-accounts:
     image: ${DOCKER_REGISTRY-}mizekar-accounts
     build:
@@ -31,6 +17,8 @@ services:
     environment:
       ElasticConfigurationUri: http://elasticsearch:9200/
       db_connection: Server=mssqldb;Database=Mizekar.Accounts;User=sa;Password=Your_password123;
+      db_connection_ids_config: Server=mssqldb;Database=Mizekar.Identity;User=sa;Password=Your_password123;
+      db_connection_ids_operations: Server=mssqldb;Database=Mizekar.IdentityData;User=sa;Password=Your_password123;
       public_origin: http://docker.for.win.localhost:56000
     depends_on:
       - mssqldb

@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Reflection;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Storage;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
@@ -15,12 +19,14 @@ namespace Mizekar.Accounts
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -59,23 +65,43 @@ namespace Mizekar.Accounts
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            // configure identity server with in-memory stores, keys, clients and scopes
+            // configure identity server
             var publicOrigin = Configuration["public_origin"];
+            var dbConnectionIdsConfig = Configuration["db_connection_ids_config"];
+            var dbConnectionIdsOperations = Configuration["db_connection_ids_operations"];
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
             var builder = services.AddIdentityServer(options =>
             {
-                //options.PublicOrigin = string.IsNullOrWhiteSpace(publicOrigin) ? "" : publicOrigin;
+                options.PublicOrigin = publicOrigin;
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
-            })
-                .AddExtensionGrantValidator<PhoneNumberTokenGrantValidator>()
-                //.AddDeveloperSigningCredential()
-                .AddInMemoryPersistedGrants()
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApiResources())
-                .AddInMemoryClients(Config.GetClients())
-                .AddAspNetIdentity<ApplicationUser>();
+            });
+
+            builder.AddAspNetIdentity<ApplicationUser>();
+                //.AddProfileService<ProfileService>();
+
+            builder.AddConfigurationStore<ConfigurationDbContext>(options =>
+            {
+                options.ConfigureDbContext = builder1 =>
+                    builder1.UseSqlServer(dbConnectionIdsConfig,
+                        sql => sql.MigrationsAssembly(migrationsAssembly));
+            });
+
+            // this adds the operational data from DB (codes, tokens, consents)
+            builder.AddOperationalStore<PersistedGrantDbContext>(options =>
+            {
+                options.ConfigureDbContext = builder2 =>
+                    builder2.UseSqlServer(dbConnectionIdsOperations,
+                        sql => sql.MigrationsAssembly(migrationsAssembly));
+
+                // this enables automatic token cleanup. this is optional.
+                options.EnableTokenCleanup = true;
+                options.TokenCleanupInterval = 30;
+            });
+            builder.AddExtensionGrantValidator<PhoneNumberTokenGrantValidator>();
 
             //if (Environment.IsDevelopment())
             //{
@@ -97,6 +123,8 @@ namespace Mizekar.Accounts
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            DatabaseMigrate.InitializeDatabase(app);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
