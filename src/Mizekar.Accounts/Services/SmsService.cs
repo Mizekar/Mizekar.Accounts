@@ -20,12 +20,12 @@ namespace Mizekar.Accounts.Services
         {
             try
             {
-                var smsServiceOption = _configuration.GetSection("SMS").Get<SmsServiceOption>();
+                //var smsServiceOption = _configuration.GetSection("SMS").Get<SmsServiceOption>();
 
-                if (!smsServiceOption.EnableSms)
-                {
+                //if (!smsServiceOption.EnableSms)
+                //{
                     return true;
-                }
+                //}
 
                 //var client = new SmsOnlineService.SendSoapClient();
 
