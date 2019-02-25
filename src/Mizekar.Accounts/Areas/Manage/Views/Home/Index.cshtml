@@ -1,0 +1,48 @@
+﻿@model Mizekar.Accounts.Areas.Manage.Models.Dashboard
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div>
+    <h4>Dashboard</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Users)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Users)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Roles)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Roles)
+        </dd>
+        <dt class="col-sm-2">
+            <a asp-controller="Clients" asp-action="Index">@Model.Clients</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Clients)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Scopes)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Scopes)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ApiResources)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ApiResources)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdentityResources)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdentityResources)
+        </dd>
+    </dl>
+</div>

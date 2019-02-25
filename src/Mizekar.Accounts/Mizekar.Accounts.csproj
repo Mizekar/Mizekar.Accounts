@@ -26,4 +26,8 @@
     <PackageReference Include="Serilog.Enrichers.Environment" Version="2.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Manage\Data\" />
+  </ItemGroup>
+
 </Project>
