@@ -17,13 +17,15 @@ namespace Mizekar.Accounts.Areas.Manage.Controllers
     {
         private readonly AccountsDbContext _accountsDbContext;
         private readonly ConfigurationDbContext _configurationDbContext;
+        private readonly PersistedGrantDbContext _persistedGrantDbContext;
         private readonly IClientStore _clientStore;
         private readonly IResourceStore _resourceStore;
 
-        public HomeController(AccountsDbContext accountsDbContext, ConfigurationDbContext configurationDbContext, IClientStore clientStore, IResourceStore resourceStore)
+        public HomeController(AccountsDbContext accountsDbContext, ConfigurationDbContext configurationDbContext, PersistedGrantDbContext persistedGrantDbContext, IClientStore clientStore, IResourceStore resourceStore)
         {
             _accountsDbContext = accountsDbContext;
             _configurationDbContext = configurationDbContext;
+            _persistedGrantDbContext = persistedGrantDbContext;
             _clientStore = clientStore;
             _resourceStore = resourceStore;
         }
@@ -37,6 +39,7 @@ namespace Mizekar.Accounts.Areas.Manage.Controllers
                 Clients = _configurationDbContext.Clients.Count(),
                 ApiResources = _configurationDbContext.ApiResources.Count(),
                 IdentityResources = _configurationDbContext.IdentityResources.Count(),
+                PersistedGrants = _persistedGrantDbContext.PersistedGrants.Count()
             };
             return View(model);
         }

@@ -7,42 +7,64 @@
 <div>
     <h4>Dashboard</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Users)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Users)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Roles)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Roles)
-        </dd>
-        <dt class="col-sm-2">
-            <a asp-controller="Clients" asp-action="Index">@Model.Clients</a>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Clients)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Scopes)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Scopes)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ApiResources)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ApiResources)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IdentityResources)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdentityResources)
-        </dd>
-    </dl>
+    <div class="container">
+        <div class="card-deck mb-3 text-center">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">@Html.DisplayNameFor(model => model.Users)</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">@Html.DisplayFor(model => model.Users)</h1>
+                    <button asp-controller="Clients" asp-action="Index" type="button" class="btn btn-lg btn-block btn-outline-primary">Manage</button>
+                </div>
+            </div>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">@Html.DisplayNameFor(model => model.Roles)</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">@Html.DisplayFor(model => model.Roles)</h1>
+                    <a asp-controller="Roles" asp-action="Index" class="btn btn-lg btn-block btn-outline-primary">Manage</a>
+                </div>
+            </div>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">@Html.DisplayNameFor(model => model.Clients)</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">@Html.DisplayFor(model => model.Clients)</h1>
+                    <button asp-controller="Clients" asp-action="Index" type="button" class="btn btn-lg btn-block btn-outline-primary">Manage</button>
+                </div>
+            </div>
+        </div>
+        <div class="card-deck mb-3 text-center">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">@Html.DisplayNameFor(model => model.ApiResources)</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">@Html.DisplayFor(model => model.ApiResources)</h1>
+                    <button asp-controller="Clients" asp-action="Index" type="button" class="btn btn-lg btn-block btn-outline-primary">Manage</button>
+                </div>
+            </div>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">@Html.DisplayNameFor(model => model.IdentityResources)</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">@Html.DisplayFor(model => model.IdentityResources)</h1>
+                    <button asp-controller="Clients" asp-action="Index" type="button" class="btn btn-lg btn-block btn-outline-primary">Manage</button>
+                </div>
+            </div>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">@Html.DisplayNameFor(model => model.PersistedGrants)</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">@Html.DisplayFor(model => model.PersistedGrants)</h1>
+                    <button asp-controller="Clients" asp-action="Index" type="button" class="btn btn-lg btn-block btn-outline-primary">Manage</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
