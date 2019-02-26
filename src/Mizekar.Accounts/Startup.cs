@@ -125,6 +125,18 @@ namespace Mizekar.Accounts
             //      options.ClientId = ;
             //      options.ClientSecret = ;
             //  });
+
+            var assembly = Assembly.GetAssembly(typeof(Startup));
+            var productTitle = assembly.GetCustomAttribute<AssemblyProductAttribute>().Product;
+            var productDescription = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description;
+            var productVersion = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+            // Add OpenAPI/Swagger document
+            services.AddSwaggerDocument(settings =>
+            {
+                settings.Title = productTitle;
+                settings.Description = productDescription;
+                settings.Version = productVersion;
+            }); // registers a Swagger v2.0 document with the name "v1" (default)
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -163,6 +175,9 @@ namespace Mizekar.Accounts
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseSwagger();
+            app.UseReDoc();
 
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {

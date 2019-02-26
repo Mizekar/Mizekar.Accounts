@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Mizekar.Accounts</name>
+    </assembly>
+    <members>
+        <member name="M:Mizekar.Accounts.Controllers.UsersController.GetProfile(System.Guid)">
+            <summary>
+            Get Profile by Id
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mizekar.Accounts.Controllers.UsersController.GetProfile">
+            <summary>
+            Get Profile
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mizekar.Accounts.Controllers.UsersController.UpdateProfile(System.String)">
+            <summary>
+            Update Profile
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Mizekar.Accounts.Controllers.UsersController.UpdateProfile(System.Int32,System.String)">
+            <summary>
+            Update Profile by Id
+            </summary>
+            <param name="id"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Mizekar.Accounts.Helper.PhoneNumbers.RemoveNonNumeric(System.String)">
+            <summary>
+            Removes all non numeric characters from a string
+            </summary>
+            <param name="phone"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

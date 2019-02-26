@@ -15,6 +15,9 @@ using Mizekar.Core.Extensions;
 
 namespace Mizekar.Accounts.Controllers
 {
+    /// <summary>
+    /// Auth System By SMS
+    /// </summary>
     [Route("api/auth/phone")]
     public class AuthPhoneController : Controller
     {
@@ -38,7 +41,11 @@ namespace Mizekar.Accounts.Controllers
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
-
+        /// <summary>
+        /// Send Verify Code
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]PhoneLoginViewModel model)
         {
@@ -67,6 +74,12 @@ namespace Mizekar.Accounts.Controllers
             return Accepted(body);
         }
 
+        /// <summary>
+        /// reSend Verify Code
+        /// </summary>
+        /// <param name="resendToken"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<IActionResult> Put(string resendToken, [FromBody]PhoneLoginViewModel model)
         {
