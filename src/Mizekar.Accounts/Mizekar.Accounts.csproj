@@ -45,4 +45,10 @@
     <Folder Include="Areas\Manage\Data\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Mizekar.Accounts.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
