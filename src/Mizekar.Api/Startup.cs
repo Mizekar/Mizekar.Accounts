@@ -30,7 +30,7 @@ namespace Mizekar.Api
                     options.Authority = "http://mizekar-accounts";
                     options.RequireHttpsMetadata = false;
 
-                    options.ApiName = "shop";
+                    options.ApiName = "api1";
                 });
         }
 

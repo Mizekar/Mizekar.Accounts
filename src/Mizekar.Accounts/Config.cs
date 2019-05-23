@@ -21,11 +21,8 @@ namespace Mizekar.Accounts
         {
             return new ApiResource[]
             {
-                new ApiResource("storage", "Mizekar Storage Api"){ UserClaims = { JwtClaimTypes.Role, JwtClaimTypes.PhoneNumber }},
-                new ApiResource("business", "Mizekar Business Api"){ UserClaims = { JwtClaimTypes.Role, JwtClaimTypes.PhoneNumber }},
-                new ApiResource("shop", "Mizekar Shop Api"){ UserClaims = { JwtClaimTypes.Role, JwtClaimTypes.PhoneNumber }},
                 new ApiResource("mvc", "mvc site"),
-                new ApiResource("api1", "web api client"),
+                new ApiResource("api1", "web api client"){ UserClaims = { JwtClaimTypes.Role, JwtClaimTypes.PhoneNumber }}
             };
         }
 
@@ -35,15 +32,15 @@ namespace Mizekar.Accounts
             {
                 new Client
                 {
-                    ClientId = "shop-mobile",
-                    ClientName = "Shop Mobile",
+                    ClientId = "mobile-client",
+                    ClientName = "mobile-client",
                     AllowedGrantTypes = new List<string> { AuthConstants.GrantType.PhoneNumberToken},
-                    ClientSecrets = {new Secret("00PcCMVwUGdb5weDo9FOOrYclGif7SJAFM3oXQGelhy4KQ5f8M3RMuTqeg".Sha256())},
+                    ClientSecrets = {new Secret("secret".Sha256())},
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
-                        "shop","storage"
+                        "api1"
                     },
                     AllowOfflineAccess = true,
                     RefreshTokenExpiration = TokenExpiration.Sliding,
@@ -64,24 +61,6 @@ namespace Mizekar.Accounts
                     ClientSecrets = { new Secret("secret".Sha256()) },
 
                     AllowedScopes = { "api1" }
-                },
-
-                // MVC client using hybrid flow
-                new Client
-                {
-                    ClientId = "business",
-                    ClientName = "Business app",
-                    RequireConsent = false,
-
-                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-                    ClientSecrets = { new Secret("secret".Sha256()) },
-
-                    RedirectUris = { "https://business.mizekar.com/signin-oidc" },
-                    FrontChannelLogoutUri = "https://business.mizekar.com/signout-oidc",
-                    PostLogoutRedirectUris = { "https://business.mizekar.com/signout-callback-oidc" },
-
-                    AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "business" }
                 },
 
                 // MVC client using hybrid flow
